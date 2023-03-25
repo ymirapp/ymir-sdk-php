@@ -1,0 +1,48 @@
+{
+    "name": "ymirapp/ymir-sdk-php",
+    "description": "Ymir PHP SDK",
+    "type" : "library",
+    "license": "MIT",
+    "authors" : [
+        {
+            "name": "Carl Alexander",
+            "email": "support@ymirapp.com",
+            "homepage": "https://ymirapp.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.2.5",
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "^7.0",
+        "illuminate/collections": "^8.0|^9.0",
+        "psr/http-message": "^1.0"
+    },
+    "require-dev": {
+        "fakerphp/faker": "^1.17",
+        "friendsofphp/php-cs-fixer": "^3.0",
+        "php-mock/php-mock-phpunit": "^2.7",
+        "php-parallel-lint/php-parallel-lint": "^1.1",
+        "phpro/grumphp": "^1.0",
+        "phpstan/phpstan": "^1.0",
+        "phpunit/phpunit": "^9.3",
+        "sebastian/phpcpd": "^6.0.3"
+    },
+    "config": {
+        "allow-plugins": {
+            "phpro/grumphp": true
+        },
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "Ymir\\Sdk\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ymir\\Sdk\\Tests\\": "tests"
+        }
+    }
+}
