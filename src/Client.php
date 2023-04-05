@@ -260,11 +260,12 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function createProject(int $providerId, string $name, string $region): Collection
+    public function createProject(int $providerId, string $name, string $region, array $environments = []): Collection
     {
         return $this->request('post', "/providers/{$providerId}/projects", [
             'name' => $name,
             'region' => $region,
+            'environments' => $environments,
         ]);
     }
 

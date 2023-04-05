@@ -113,7 +113,7 @@ interface ClientInterface
     /**
      * Create a new project.
      */
-    public function createProject(int $providerId, string $name, string $region): Collection;
+    public function createProject(int $providerId, string $name, string $region, array $environments = []): Collection;
 
     /**
      * Create a new cloud provider.

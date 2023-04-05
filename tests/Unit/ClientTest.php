@@ -433,7 +433,7 @@ class ClientTest extends TestCase
                    ->with($this->callback(function (RequestInterface $request) use ($providerId) {
                        $this->assertSame('POST', $request->getMethod());
                        $this->assertSame("base_url/providers/{$providerId}/projects", (string) $request->getUri());
-                       $this->assertEquals(['name' => 'project-name', 'region' => 'region'], json_decode($request->getBody()->getContents(), true));
+                       $this->assertEquals(['name' => 'project-name', 'region' => 'region', 'environments' => []], json_decode($request->getBody()->getContents(), true));
 
                        return true;
                    }));
