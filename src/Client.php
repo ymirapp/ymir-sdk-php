@@ -196,9 +196,10 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function createDeployment(int $projectId, string $environment, array $configuration): Collection
+    public function createDeployment(int $projectId, string $environment, array $configuration, ?string $assetsHash = null): Collection
     {
         return $this->request('post', "/projects/{$projectId}/environments/{$environment}/deployments", [
+            'assets_hash' => $assetsHash,
             'configuration' => $configuration,
         ]);
     }

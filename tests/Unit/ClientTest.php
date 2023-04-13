@@ -295,21 +295,22 @@ class ClientTest extends TestCase
 
     public function testCreateDeployment()
     {
+        $assetsHash = $this->faker->sha256;
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $environment = $this->faker->slug;
         $projectId = $this->faker->randomDigitNotNull;
 
         $httpClient->expects($this->once())
                    ->method('send')
-                   ->with($this->callback(function (RequestInterface $request) use ($projectId, $environment) {
+                   ->with($this->callback(function (RequestInterface $request) use ($assetsHash, $projectId, $environment) {
                        $this->assertSame('POST', $request->getMethod());
                        $this->assertSame("base_url/projects/{$projectId}/environments/{$environment}/deployments", (string) $request->getUri());
-                       $this->assertEquals(['configuration' => ['configuration']], json_decode($request->getBody()->getContents(), true));
+                       $this->assertEquals(['configuration' => ['configuration'], 'assets_hash' => $assetsHash], json_decode($request->getBody()->getContents(), true));
 
                        return true;
                    }));
 
-        (new Client($httpClient, 'base_url'))->createDeployment($projectId, $environment, ['configuration']);
+        (new Client($httpClient, 'base_url'))->createDeployment($projectId, $environment, ['configuration'], $assetsHash);
     }
 
     public function testCreateDnsZone()
