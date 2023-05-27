@@ -203,7 +203,7 @@ interface ClientInterface
     /**
      * Get an access token to authenticate with the Ymir API.
      */
-    public function getAccessToken(string $email, string $password, ?string $authenticationCode = null): string;
+    public function getAccessToken(string $email, string $password, string $authenticationCode = null): string;
 
     /**
      * Get the user's currently active team.
