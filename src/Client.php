@@ -641,6 +641,18 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
+    public function getEnvironmentLogs(int $projectId, string $environment, string $function, int $since, string $order = null): Collection
+    {
+        return $this->request('get', "/projects/{$projectId}/environments/{$environment}/logs?".http_build_query([
+                'function' => $function,
+                'since' => $since,
+                'order' => $order,
+            ]));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getEnvironmentMetrics(int $projectId, string $environment, string $period): Collection
     {
         return $this->request('get', "/projects/{$projectId}/environments/{$environment}/metrics?period={$period}");

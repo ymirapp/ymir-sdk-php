@@ -321,6 +321,11 @@ interface ClientInterface
     public function getEnvironment(int $projectId, string $environment): Collection;
 
     /**
+     * Get the recent logs from a project environment's function.
+     */
+    public function getEnvironmentLogs(int $projectId, string $environment, string $function, int $since, string $order = null): Collection;
+
+    /**
      * Get the project environment's metrics.
      */
     public function getEnvironmentMetrics(int $projectId, string $environment, string $period): Collection;

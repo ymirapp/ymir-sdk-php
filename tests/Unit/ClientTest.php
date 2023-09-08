@@ -1306,6 +1306,47 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getEnvironment($projectId, $environment);
     }
 
+    public function testGetEnvironmentLogsWithOrder()
+    {
+        $environment = $this->faker->slug;
+        $function = $this->faker->slug;
+        $httpClient = $this->createMock(GuzzleClientInterface::class);
+        $order = 'desc';
+        $projectId = $this->faker->randomDigitNotNull;
+        $since = $this->faker->numberBetween();
+
+        $httpClient->expects($this->once())
+            ->method('send')
+            ->with($this->callback(function (RequestInterface $request) use ($environment, $function, $order, $projectId, $since) {
+                $this->assertSame('GET', $request->getMethod());
+                $this->assertSame("base_url/projects/{$projectId}/environments/{$environment}/logs?function={$function}&since={$since}&order={$order}", (string) $request->getUri());
+
+                return true;
+            }));
+
+        (new Client($httpClient, 'base_url'))->getEnvironmentLogs($projectId, $environment, $function, $since, $order);
+    }
+
+    public function testGetEnvironmentLogsWithoutOrder()
+    {
+        $environment = $this->faker->slug;
+        $function = $this->faker->slug;
+        $httpClient = $this->createMock(GuzzleClientInterface::class);
+        $projectId = $this->faker->randomDigitNotNull;
+        $since = $this->faker->numberBetween();
+
+        $httpClient->expects($this->once())
+            ->method('send')
+            ->with($this->callback(function (RequestInterface $request) use ($environment, $function, $projectId, $since) {
+                $this->assertSame('GET', $request->getMethod());
+                $this->assertSame("base_url/projects/{$projectId}/environments/{$environment}/logs?function={$function}&since={$since}", (string) $request->getUri());
+
+                return true;
+            }));
+
+        (new Client($httpClient, 'base_url'))->getEnvironmentLogs($projectId, $environment, $function, $since);
+    }
+
     public function testGetEnvironmentMetrics()
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
