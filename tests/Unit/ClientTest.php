@@ -1756,6 +1756,24 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->startDeployment($deploymentId);
     }
 
+    public function testUpdateCache()
+    {
+        $httpClient = $this->createMock(GuzzleClientInterface::class);
+        $cacheId = $this->faker->randomDigitNotNull;
+
+        $httpClient->expects($this->once())
+            ->method('send')
+            ->with($this->callback(function (RequestInterface $request) use ($cacheId) {
+                $this->assertSame('PUT', $request->getMethod());
+                $this->assertSame("base_url/caches/{$cacheId}", (string) $request->getUri());
+                $this->assertEquals(['type' => 'cache-type'], json_decode($request->getBody()->getContents(), true));
+
+                return true;
+            }));
+
+        (new Client($httpClient, 'base_url'))->updateCache($cacheId, 'cache-type');
+    }
+
     public function testUpdateDatabaseServer()
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);

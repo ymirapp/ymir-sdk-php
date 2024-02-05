@@ -441,6 +441,11 @@ interface ClientInterface
     public function startDeployment(int $deploymentId);
 
     /**
+     * Update a cache cluster.
+     */
+    public function updateCache(int $cacheId, string $type);
+
+    /**
      * Update a database server.
      */
     public function updateDatabaseServer(int $databaseServerId, int $storage, string $type);

@@ -877,6 +877,16 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
+    public function updateCache(int $cacheId, string $type)
+    {
+        $this->request('put', "/caches/{$cacheId}", [
+            'type' => $type,
+        ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function updateDatabaseServer(int $databaseServerId, int $storage, string $type)
     {
         $this->request('put', "/database-servers/{$databaseServerId}", [
