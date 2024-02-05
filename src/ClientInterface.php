@@ -83,7 +83,7 @@ interface ClientInterface
     /**
      * Create a new deployment for a project environment.
      */
-    public function createDeployment(int $projectId, string $environment, array $configuration): Collection;
+    public function createDeployment(int $projectId, string $environment, array $configuration, ?string $assetsHash = null): Collection;
 
     /**
      * Create a new DNS zone.
@@ -203,7 +203,7 @@ interface ClientInterface
     /**
      * Get an access token to authenticate with the Ymir API.
      */
-    public function getAccessToken(string $email, string $password, string $authenticationCode = null): string;
+    public function getAccessToken(string $email, string $password, ?string $authenticationCode = null): string;
 
     /**
      * Get the user's currently active team.
@@ -323,7 +323,7 @@ interface ClientInterface
     /**
      * Get the recent logs from a project environment's function.
      */
-    public function getEnvironmentLogs(int $projectId, string $environment, string $function, int $since, string $order = null): Collection;
+    public function getEnvironmentLogs(int $projectId, string $environment, string $function, int $since, ?string $order = null): Collection;
 
     /**
      * Get the project environment's metrics.

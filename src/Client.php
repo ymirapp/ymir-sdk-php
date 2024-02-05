@@ -51,7 +51,7 @@ final class Client implements ClientInterface
     /**
      * Constructor.
      */
-    public function __construct(GuzzleClientInterface $httpClient, string $baseUrl = 'https://ymirapp.com/api', string $token = null)
+    public function __construct(GuzzleClientInterface $httpClient, string $baseUrl = 'https://ymirapp.com/api', ?string $token = null)
     {
         $this->baseUrl = rtrim($baseUrl, '/').'/';
         $this->httpClient = $httpClient;
@@ -196,7 +196,7 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function createDeployment(int $projectId, string $environment, array $configuration, string $assetsHash = null): Collection
+    public function createDeployment(int $projectId, string $environment, array $configuration, ?string $assetsHash = null): Collection
     {
         return $this->request('post', "/projects/{$projectId}/environments/{$environment}/deployments", [
             'assets_hash' => $assetsHash,
@@ -420,7 +420,7 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getAccessToken(string $email, string $password, string $authenticationCode = null): string
+    public function getAccessToken(string $email, string $password, ?string $authenticationCode = null): string
     {
         $response = $this->request('post', '/token', [
             'host' => gethostname(),
@@ -641,7 +641,7 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getEnvironmentLogs(int $projectId, string $environment, string $function, int $since, string $order = null): Collection
+    public function getEnvironmentLogs(int $projectId, string $environment, string $function, int $since, ?string $order = null): Collection
     {
         return $this->request('get', "/projects/{$projectId}/environments/{$environment}/logs?".http_build_query([
                 'function' => $function,
