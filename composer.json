@@ -1,9 +1,9 @@
 {
     "name": "ymirapp/ymir-sdk-php",
     "description": "Ymir PHP SDK",
-    "type" : "library",
+    "type": "library",
     "license": "MIT",
-    "authors" : [
+    "authors": [
         {
             "name": "Carl Alexander",
             "email": "support@ymirapp.com",
