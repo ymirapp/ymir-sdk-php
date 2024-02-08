@@ -909,9 +909,9 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function validateProjectConfiguration(int $projectId, array $configuration, array $environments = [])
+    public function validateProjectConfiguration(int $projectId, array $configuration, array $environments = []): Collection
     {
-        $this->request('post', "/projects/{$projectId}/validate-configuration", [
+        return $this->request('post', "/projects/{$projectId}/validate-configuration", [
             'configuration' => $configuration,
             'environments' => $environments,
         ]);

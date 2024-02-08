@@ -456,7 +456,7 @@ interface ClientInterface
     public function updateProvider(int $providerId, array $credentials, string $name);
 
     /**
-     * Validates the project configuration.
+     * Validates the project configuration and returns warnings for each environment.
      */
-    public function validateProjectConfiguration(int $projectId, array $configuration, array $environments = []);
+    public function validateProjectConfiguration(int $projectId, array $configuration, array $environments = []): Collection;
 }
