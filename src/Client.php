@@ -859,7 +859,7 @@ final class Client implements ClientInterface
     }
 
     /**
-     * Set the Ymir API access token.
+     * {@inheritdoc}
      */
     public function setAccessToken(string $token)
     {

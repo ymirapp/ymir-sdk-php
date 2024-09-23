@@ -436,6 +436,11 @@ interface ClientInterface
     public function rotateDatabaseUserPassword(int $databaseServerId, int $userId): Collection;
 
     /**
+     * Set the Ymir API access token.
+     */
+    public function setAccessToken(string $token);
+
+    /**
      * Send signal to start a deployment.
      */
     public function startDeployment(int $deploymentId);
