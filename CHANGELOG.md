@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/ymirapp/ymir-sdk-php/compare/v1.2.0...v1.3.0) (2024-09-23)
+
+
+### Features
+
+* make `setAccessToken` an interface method ([3b0d376](https://github.com/ymirapp/ymir-sdk-php/commit/3b0d376517a6f17fdc369bc6cf36aa1c94808481))
+
 ## [1.2.0](https://github.com/ymirapp/ymir-sdk-php/compare/v1.1.0...v1.2.0) (2024-02-08)
 
 
