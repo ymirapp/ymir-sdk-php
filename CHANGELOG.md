@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/ymirapp/ymir-sdk-php/compare/v1.2.0...v1.2.1) (2024-11-23)
+
+
+### Dependency Changes
+
+* Allow using laravel 11 collections ([e1b749e](https://github.com/ymirapp/ymir-sdk-php/commit/e1b749e0abc0cb6e7b585cc86637bb276460f84b))
+
 ## [1.2.0](https://github.com/ymirapp/ymir-sdk-php/compare/v1.1.0...v1.2.0) (2024-02-08)
 
 
