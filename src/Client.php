@@ -129,10 +129,11 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function createCache(int $networkId, string $name, string $type): Collection
+    public function createCache(int $networkId, string $name, string $engine, string $type): Collection
     {
         return $this->request('post', "/networks/{$networkId}/caches", [
             'name' => $name,
+            'engine' => $engine,
             'type' => $type,
         ]);
     }

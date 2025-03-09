@@ -58,7 +58,7 @@ interface ClientInterface
     /**
      * Create a new cache on the network.
      */
-    public function createCache(int $networkId, string $name, string $type): Collection;
+    public function createCache(int $networkId, string $name, string $engine, string $type): Collection;
 
     /**
      * Create a new SSL certificate.

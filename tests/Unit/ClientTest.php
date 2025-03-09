@@ -197,12 +197,12 @@ class ClientTest extends TestCase
                    ->with($this->callback(function (RequestInterface $request) use ($networkId) {
                        $this->assertSame('POST', $request->getMethod());
                        $this->assertSame("base_url/networks/{$networkId}/caches", (string) $request->getUri());
-                       $this->assertEquals(['name' => 'name', 'type' => 'type'], json_decode($request->getBody()->getContents(), true));
+                       $this->assertEquals(['name' => 'name', 'engine' => 'engine', 'type' => 'type'], json_decode($request->getBody()->getContents(), true));
 
                        return true;
                    }));
 
-        (new Client($httpClient, 'base_url'))->createCache($networkId, 'name', 'type');
+        (new Client($httpClient, 'base_url'))->createCache($networkId, 'name', 'engine', 'type');
     }
 
     public function testCreateCertificate()
