@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.3.0](https://github.com/ymirapp/ymir-sdk-php/compare/v1.2.1...v1.3.0) (2025-03-30)
+
+
+### Features
+
+* Add `engine` to `createCache` method ([897bb81](https://github.com/ymirapp/ymir-sdk-php/commit/897bb8171bd593aa5f6bf60de6d175244f7c316a))
+
+
+### Dependency Changes
+
+* Allow using laravel 12 collections ([5aa4372](https://github.com/ymirapp/ymir-sdk-php/commit/5aa4372ee33507ad8fdce15f587e8532dae94726))
+
 ## [1.2.1](https://github.com/ymirapp/ymir-sdk-php/compare/v1.2.0...v1.2.1) (2024-11-23)
 
 
