@@ -926,7 +926,7 @@ final class Client implements ClientInterface
         $headers = [
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
-            'User-Agent' => 'ymir-sdk-php/1.2.1',
+            'User-Agent' => 'ymir-sdk-php/1.3.0',
         ];
         $method = strtolower($method);
 
