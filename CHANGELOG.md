@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/ymirapp/ymir-sdk-php/compare/v1.3.0...v1.3.1) (2026-03-20)
+
+
+### Dependency Changes
+
+* Add laravel 13 collections ([b19e777](https://github.com/ymirapp/ymir-sdk-php/commit/b19e777579db2d6a1946d4764310a489b5661224))
+
 ## [1.3.0](https://github.com/ymirapp/ymir-sdk-php/compare/v1.2.1...v1.3.0) (2025-03-30)
 
 
