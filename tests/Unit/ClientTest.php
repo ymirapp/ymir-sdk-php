@@ -241,7 +241,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->createDatabase($databaseServerId, 'database-name');
     }
 
-    public function testCreateDatabaseServer()
+    public function testCreateDatabaseServerWithAuroraMySql()
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $networkId = $this->faker->randomDigitNotNull;
@@ -251,28 +251,84 @@ class ClientTest extends TestCase
                    ->with($this->callback(function (RequestInterface $request) use ($networkId) {
                        $this->assertSame('POST', $request->getMethod());
                        $this->assertSame("base_url/networks/{$networkId}/database-servers", (string) $request->getUri());
-                       $this->assertEquals(['name' => 'database-server-name', 'type' => 'database-server-type', 'publicly_accessible' => true, 'storage' => 42], json_decode($request->getBody()->getContents(), true));
+                       $this->assertEquals(['engine' => 'mysql', 'name' => 'database-server-name', 'type' => 'aurora-mysql'], json_decode($request->getBody()->getContents(), true));
 
                        return true;
                    }));
 
-        (new Client($httpClient, 'base_url'))->createDatabaseServer($networkId, 'database-server-name', 'database-server-type', 42, true);
+        (new Client($httpClient, 'base_url'))->createDatabaseServer($networkId, 'mysql', 'database-server-name', 'aurora-mysql');
     }
 
-    public function testCreateDatabaseServerWithAuroraMySqlAndPubliclyAccessibleSetToTrue()
+    public function testCreateDatabaseServerWithAuroraPostgreSql()
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('An "aurora-mysql" database server cannot be public');
+        $httpClient = $this->createMock(GuzzleClientInterface::class);
+        $networkId = $this->faker->randomDigitNotNull;
 
-        (new Client($this->createMock(GuzzleClientInterface::class), 'base_url'))->createDatabaseServer($this->faker->randomDigitNotNull, 'database-server-name', 'aurora-mysql', null, true);
+        $httpClient->expects($this->once())
+                   ->method('send')
+                   ->with($this->callback(function (RequestInterface $request) use ($networkId) {
+                       $this->assertSame('POST', $request->getMethod());
+                       $this->assertSame("base_url/networks/{$networkId}/database-servers", (string) $request->getUri());
+                       $this->assertEquals(['engine' => 'postgresql', 'name' => 'database-server-name', 'type' => 'aurora-postgresql'], json_decode($request->getBody()->getContents(), true));
+
+                       return true;
+                   }));
+
+        (new Client($httpClient, 'base_url'))->createDatabaseServer($networkId, 'postgresql', 'database-server-name', 'aurora-postgresql');
     }
 
-    public function testCreateDatabaseServerWithAuroraMySqlAndStorageNotNull()
+    public function testCreateDatabaseServerWithMySql()
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Cannot specify a "storage" value for "aurora-mysql" database server');
+        $httpClient = $this->createMock(GuzzleClientInterface::class);
+        $networkId = $this->faker->randomDigitNotNull;
 
-        (new Client($this->createMock(GuzzleClientInterface::class), 'base_url'))->createDatabaseServer($this->faker->randomDigitNotNull, 'database-server-name', 'aurora-mysql', 42);
+        $httpClient->expects($this->once())
+                   ->method('send')
+                   ->with($this->callback(function (RequestInterface $request) use ($networkId) {
+                       $this->assertSame('POST', $request->getMethod());
+                       $this->assertSame("base_url/networks/{$networkId}/database-servers", (string) $request->getUri());
+                       $this->assertEquals(['engine' => 'mysql', 'name' => 'database-server-name', 'type' => 'database-server-type', 'publicly_accessible' => true, 'storage' => 42], json_decode($request->getBody()->getContents(), true));
+
+                       return true;
+                   }));
+
+        (new Client($httpClient, 'base_url'))->createDatabaseServer($networkId, 'mysql', 'database-server-name', 'database-server-type', true, 42);
+    }
+
+    public function testCreateDatabaseServerWithPostgreSql()
+    {
+        $httpClient = $this->createMock(GuzzleClientInterface::class);
+        $networkId = $this->faker->randomDigitNotNull;
+
+        $httpClient->expects($this->once())
+                   ->method('send')
+                   ->with($this->callback(function (RequestInterface $request) use ($networkId) {
+                       $this->assertSame('POST', $request->getMethod());
+                       $this->assertSame("base_url/networks/{$networkId}/database-servers", (string) $request->getUri());
+                       $this->assertEquals(['engine' => 'postgresql', 'name' => 'database-server-name', 'type' => 'db.t3.micro', 'publicly_accessible' => true, 'storage' => 42], json_decode($request->getBody()->getContents(), true));
+
+                       return true;
+                   }));
+
+        (new Client($httpClient, 'base_url'))->createDatabaseServer($networkId, 'postgresql', 'database-server-name', 'db.t3.micro', true, 42);
+    }
+
+    public function testCreateDatabaseServerWithUnsupportedEngineAndType()
+    {
+        $httpClient = $this->createMock(GuzzleClientInterface::class);
+        $networkId = $this->faker->randomDigitNotNull;
+
+        $httpClient->expects($this->once())
+                   ->method('send')
+                   ->with($this->callback(function (RequestInterface $request) use ($networkId) {
+                       $this->assertSame('POST', $request->getMethod());
+                       $this->assertSame("base_url/networks/{$networkId}/database-servers", (string) $request->getUri());
+                       $this->assertEquals(['engine' => 'postgres', 'name' => 'database-server-name', 'type' => 'rds'], json_decode($request->getBody()->getContents(), true));
+
+                       return true;
+                   }));
+
+        (new Client($httpClient, 'base_url'))->createDatabaseServer($networkId, 'postgres', 'database-server-name', 'rds');
     }
 
     public function testCreateDatabaseUser()

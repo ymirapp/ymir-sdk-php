@@ -162,21 +162,19 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function createDatabaseServer(int $networkId, string $name, string $type, ?int $storage = 50, bool $public = false): Collection
+    public function createDatabaseServer(int $networkId, string $engine, string $name, string $type, ?bool $public = null, ?int $storage = null): Collection
     {
-        if ('aurora-mysql' === $type && null !== $storage) {
-            throw new \InvalidArgumentException('Cannot specify a "storage" value for "aurora-mysql" database server');
-        } elseif ('aurora-mysql' === $type && $public) {
-            throw new \InvalidArgumentException('An "aurora-mysql" database server cannot be public');
-        }
-
         $databaseServer = [
+            'engine' => $engine,
             'name' => $name,
             'type' => $type,
         ];
 
-        if ('aurora-mysql' !== $type) {
+        if (null !== $public) {
             $databaseServer['publicly_accessible'] = $public;
+        }
+
+        if (null !== $storage) {
             $databaseServer['storage'] = $storage;
         }
 

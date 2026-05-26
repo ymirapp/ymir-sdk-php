@@ -73,7 +73,7 @@ interface ClientInterface
     /**
      * Create a new database server on the network.
      */
-    public function createDatabaseServer(int $networkId, string $name, string $type, ?int $storage = 50, bool $public = false): Collection;
+    public function createDatabaseServer(int $networkId, string $engine, string $name, string $type, ?bool $public = null, ?int $storage = null): Collection;
 
     /**
      * Create a new user on the database server.
