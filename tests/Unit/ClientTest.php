@@ -25,7 +25,7 @@ class ClientTest extends TestCase
 {
     use FunctionMockTrait;
 
-    public function testAddBastionHost()
+    public function testAddBastionHost(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $networkId = $this->faker->randomDigitNotNull;
@@ -42,7 +42,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->addBastionHost($networkId);
     }
 
-    public function testAddNatGateway()
+    public function testAddNatGateway(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $networkId = $this->faker->randomDigitNotNull;
@@ -59,7 +59,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->addNatGateway($networkId);
     }
 
-    public function testCancelDeployment()
+    public function testCancelDeployment(): void
     {
         $deploymentId = $this->faker->randomDigitNotNull;
         $httpClient = $this->createMock(GuzzleClientInterface::class);
@@ -76,7 +76,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->cancelDeployment($deploymentId);
     }
 
-    public function testChangeDatabaseServerLockWithLockSetToFalse()
+    public function testChangeDatabaseServerLockWithLockSetToFalse(): void
     {
         $databaseServerId = $this->faker->randomDigitNotNull;
         $httpClient = $this->createMock(GuzzleClientInterface::class);
@@ -94,7 +94,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->changeDatabaseServerLock($databaseServerId, false);
     }
 
-    public function testChangeDatabaseServerLockWithLockSetToTrue()
+    public function testChangeDatabaseServerLockWithLockSetToTrue(): void
     {
         $databaseServerId = $this->faker->randomDigitNotNull;
         $httpClient = $this->createMock(GuzzleClientInterface::class);
@@ -112,7 +112,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->changeDatabaseServerLock($databaseServerId, true);
     }
 
-    public function testChangeDnsRecord()
+    public function testChangeDnsRecord(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $zoneId = $this->faker->randomDigitNotNull;
@@ -130,7 +130,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->changeDnsRecord($zoneId, 'type', 'name', 'value');
     }
 
-    public function testChangeEnvironmentVariablesWithOverwriteSetToFalse()
+    public function testChangeEnvironmentVariablesWithOverwriteSetToFalse(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $environment = $this->faker->slug;
@@ -149,7 +149,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->changeEnvironmentVariables($projectId, $environment, ['name' => 'value'], false);
     }
 
-    public function testChangeEnvironmentVariablesWithOverwriteSetToTrue()
+    public function testChangeEnvironmentVariablesWithOverwriteSetToTrue(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $environment = $this->faker->slug;
@@ -168,7 +168,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->changeEnvironmentVariables($projectId, $environment, ['name' => 'value'], true);
     }
 
-    public function testChangeSecret()
+    public function testChangeSecret(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $environment = $this->faker->slug;
@@ -187,7 +187,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->changeSecret($projectId, $environment, 'name', 'value');
     }
 
-    public function testCreateCache()
+    public function testCreateCache(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $networkId = $this->faker->randomDigitNotNull;
@@ -205,7 +205,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->createCache($networkId, 'name', 'engine', 'type');
     }
 
-    public function testCreateCertificate()
+    public function testCreateCertificate(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $providerId = $this->faker->randomDigitNotNull;
@@ -223,7 +223,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->createCertificate($providerId, ['domain'], 'region');
     }
 
-    public function testCreateDatabase()
+    public function testCreateDatabase(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $databaseServerId = $this->faker->randomDigitNotNull;
@@ -241,7 +241,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->createDatabase($databaseServerId, 'database-name');
     }
 
-    public function testCreateDatabaseServerWithAuroraMySql()
+    public function testCreateDatabaseServerWithAuroraMySql(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $networkId = $this->faker->randomDigitNotNull;
@@ -259,7 +259,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->createDatabaseServer($networkId, 'mysql', 'database-server-name', 'aurora-mysql');
     }
 
-    public function testCreateDatabaseServerWithAuroraPostgreSql()
+    public function testCreateDatabaseServerWithAuroraPostgreSql(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $networkId = $this->faker->randomDigitNotNull;
@@ -277,7 +277,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->createDatabaseServer($networkId, 'postgresql', 'database-server-name', 'aurora-postgresql');
     }
 
-    public function testCreateDatabaseServerWithMySql()
+    public function testCreateDatabaseServerWithMySql(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $networkId = $this->faker->randomDigitNotNull;
@@ -295,7 +295,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->createDatabaseServer($networkId, 'mysql', 'database-server-name', 'database-server-type', true, 42);
     }
 
-    public function testCreateDatabaseServerWithPostgreSql()
+    public function testCreateDatabaseServerWithPostgreSql(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $networkId = $this->faker->randomDigitNotNull;
@@ -313,7 +313,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->createDatabaseServer($networkId, 'postgresql', 'database-server-name', 'db.t3.micro', true, 42);
     }
 
-    public function testCreateDatabaseServerWithUnsupportedEngineAndType()
+    public function testCreateDatabaseServerWithUnsupportedEngineAndType(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $networkId = $this->faker->randomDigitNotNull;
@@ -331,7 +331,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->createDatabaseServer($networkId, 'postgres', 'database-server-name', 'rds');
     }
 
-    public function testCreateDatabaseUser()
+    public function testCreateDatabaseUser(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $databaseServerId = $this->faker->randomDigitNotNull;
@@ -349,7 +349,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->createDatabaseUser($databaseServerId, 'database-username', ['database-name']);
     }
 
-    public function testCreateDeployment()
+    public function testCreateDeployment(): void
     {
         $assetsHash = $this->faker->sha256;
         $httpClient = $this->createMock(GuzzleClientInterface::class);
@@ -369,7 +369,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->createDeployment($projectId, $environment, ['configuration'], $assetsHash);
     }
 
-    public function testCreateDnsZone()
+    public function testCreateDnsZone(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $providerId = $this->faker->randomDigitNotNull;
@@ -387,7 +387,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->createDnsZone($providerId, 'domain');
     }
 
-    public function testCreateEmailIdentityWithDomainName()
+    public function testCreateEmailIdentityWithDomainName(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $identity = $this->faker->domainName;
@@ -406,7 +406,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->createEmailIdentity($providerId, $identity, 'region');
     }
 
-    public function testCreateEmailIdentityWithEmailAddress()
+    public function testCreateEmailIdentityWithEmailAddress(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $identity = $this->faker->email;
@@ -425,7 +425,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->createEmailIdentity($providerId, $identity, 'region');
     }
 
-    public function testCreateEnvironment()
+    public function testCreateEnvironment(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $projectId = $this->faker->randomDigitNotNull;
@@ -443,7 +443,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->createEnvironment($projectId, 'environment-name');
     }
 
-    public function testCreateInvocation()
+    public function testCreateInvocation(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $projectId = $this->faker->randomDigitNotNull;
@@ -462,7 +462,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->createInvocation($projectId, $environment, ['payload']);
     }
 
-    public function testCreateNetwork()
+    public function testCreateNetwork(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $providerId = $this->faker->randomDigitNotNull;
@@ -480,7 +480,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->createNetwork($providerId, 'network-name', 'region');
     }
 
-    public function testCreateProject()
+    public function testCreateProject(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $providerId = $this->faker->randomDigitNotNull;
@@ -498,7 +498,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->createProject($providerId, 'project-name', 'region');
     }
 
-    public function testCreateProvider()
+    public function testCreateProvider(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $teamId = $this->faker->randomDigitNotNull;
@@ -516,7 +516,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->createProvider($teamId, 'provider-name', ['credentials']);
     }
 
-    public function testCreateRedeployment()
+    public function testCreateRedeployment(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $projectId = $this->faker->randomDigitNotNull;
@@ -534,7 +534,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->createRedeployment($projectId, $environment);
     }
 
-    public function testCreateRollback()
+    public function testCreateRollback(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $deploymentId = $this->faker->randomDigitNotNull;
@@ -554,7 +554,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->createRollback($projectId, $environment, $deploymentId);
     }
 
-    public function testCreateTeam()
+    public function testCreateTeam(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
 
@@ -571,7 +571,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->createTeam('team-name');
     }
 
-    public function testDeleteCache()
+    public function testDeleteCache(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $cacheId = $this->faker->randomDigitNotNull;
@@ -588,7 +588,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->deleteCache($cacheId);
     }
 
-    public function testDeleteCertificate()
+    public function testDeleteCertificate(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $certificateId = $this->faker->randomDigitNotNull;
@@ -605,7 +605,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->deleteCertificate($certificateId);
     }
 
-    public function testDeleteDatabase()
+    public function testDeleteDatabase(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $databaseServerId = $this->faker->randomDigitNotNull;
@@ -623,7 +623,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->deleteDatabase($databaseServerId, $databaseName);
     }
 
-    public function testDeleteDatabaseServer()
+    public function testDeleteDatabaseServer(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $databaseServerId = $this->faker->randomDigitNotNull;
@@ -640,7 +640,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->deleteDatabaseServer($databaseServerId);
     }
 
-    public function testDeleteDatabaseUser()
+    public function testDeleteDatabaseUser(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $databaseServerId = $this->faker->randomDigitNotNull;
@@ -658,7 +658,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->deleteDatabaseUser($databaseServerId, $databaseUserId);
     }
 
-    public function testDeleteDnsRecord()
+    public function testDeleteDnsRecord(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $dnsRecordId = $this->faker->randomDigitNotNull;
@@ -676,7 +676,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->deleteDnsRecord($zoneId, $dnsRecordId);
     }
 
-    public function testDeleteDnsZone()
+    public function testDeleteDnsZone(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $zoneId = $this->faker->randomDigitNotNull;
@@ -693,7 +693,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->deleteDnsZone($zoneId);
     }
 
-    public function testDeleteEmailIdentity()
+    public function testDeleteEmailIdentity(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $emailIdentityId = $this->faker->randomDigitNotNull;
@@ -710,7 +710,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->deleteEmailIdentity($emailIdentityId);
     }
 
-    public function testDeleteEnvironmentWithDeleteResourcesSetToFalse()
+    public function testDeleteEnvironmentWithDeleteResourcesSetToFalse(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $projectId = $this->faker->randomDigitNotNull;
@@ -729,7 +729,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->deleteEnvironment($projectId, $environment, false);
     }
 
-    public function testDeleteEnvironmentWithDeleteResourcesSetToTrue()
+    public function testDeleteEnvironmentWithDeleteResourcesSetToTrue(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $projectId = $this->faker->randomDigitNotNull;
@@ -748,7 +748,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->deleteEnvironment($projectId, $environment, true);
     }
 
-    public function testDeleteNetwork()
+    public function testDeleteNetwork(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $networkId = $this->faker->randomDigitNotNull;
@@ -765,7 +765,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->deleteNetwork($networkId);
     }
 
-    public function testDeleteProjectWithDeleteResourcesSetToFalse()
+    public function testDeleteProjectWithDeleteResourcesSetToFalse(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $projectId = $this->faker->randomDigitNotNull;
@@ -783,7 +783,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->deleteProject($projectId, false);
     }
 
-    public function testDeleteProjectWithDeleteResourcesSetToTrue()
+    public function testDeleteProjectWithDeleteResourcesSetToTrue(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $projectId = $this->faker->randomDigitNotNull;
@@ -801,7 +801,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->deleteProject($projectId, true);
     }
 
-    public function testDeleteProvider()
+    public function testDeleteProvider(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $providerId = $this->faker->randomDigitNotNull;
@@ -818,7 +818,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->deleteProvider($providerId);
     }
 
-    public function testDeleteSecret()
+    public function testDeleteSecret(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $secretId = $this->faker->randomDigitNotNull;
@@ -835,7 +835,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->deleteSecret($secretId);
     }
 
-    public function testGetAccessTokenReturnsAccessTokenWithAuthenticationCode()
+    public function testGetAccessTokenReturnsAccessTokenWithAuthenticationCode(): void
     {
         $gethostname = $this->getFunctionMock($this->getNamespace(Client::class), 'gethostname');
         $httpClient = $this->createMock(GuzzleClientInterface::class);
@@ -862,7 +862,7 @@ class ClientTest extends TestCase
         $this->assertSame('access_token', (new Client($httpClient, 'base_url'))->getAccessToken('email', 'password', 'code'));
     }
 
-    public function testGetAccessTokenReturnsAccessTokenWithoutAuthenticationCode()
+    public function testGetAccessTokenReturnsAccessTokenWithoutAuthenticationCode(): void
     {
         $gethostname = $this->getFunctionMock($this->getNamespace(Client::class), 'gethostname');
         $httpClient = $this->createMock(GuzzleClientInterface::class);
@@ -889,7 +889,7 @@ class ClientTest extends TestCase
         $this->assertSame('access_token', (new Client($httpClient, 'base_url'))->getAccessToken('email', 'password'));
     }
 
-    public function testGetAccessTokenWithMissingAccessCode()
+    public function testGetAccessTokenWithMissingAccessCode(): void
     {
         $this->expectException(UnexpectedApiResponseException::class);
         $this->expectExceptionMessage('The Ymir API failed to return an access token');
@@ -913,7 +913,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getAccessToken('email', 'password', 'code');
     }
 
-    public function testGetActiveTeam()
+    public function testGetActiveTeam(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
 
@@ -929,7 +929,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getActiveTeam();
     }
 
-    public function testGetArtifactUploadUrlReturnsUploadUrl()
+    public function testGetArtifactUploadUrlReturnsUploadUrl(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $deploymentId = $this->faker->randomDigitNotNull;
@@ -952,7 +952,7 @@ class ClientTest extends TestCase
         $this->assertSame('upload_url', (new Client($httpClient, 'base_url'))->getArtifactUploadUrl($deploymentId));
     }
 
-    public function testGetArtifactUploadUrlWithMissingUploadUrl()
+    public function testGetArtifactUploadUrlWithMissingUploadUrl(): void
     {
         $this->expectException(UnexpectedApiResponseException::class);
         $this->expectExceptionMessage('The Ymir API failed to return the artifact upload URL');
@@ -972,7 +972,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getArtifactUploadUrl($deploymentId);
     }
 
-    public function testGetAuthenticatedUser()
+    public function testGetAuthenticatedUser(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
 
@@ -988,7 +988,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getAuthenticatedUser();
     }
 
-    public function testGetBastionHost()
+    public function testGetBastionHost(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $bastionHostId = $this->faker->randomDigitNotNull;
@@ -1005,7 +1005,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getBastionHost($bastionHostId);
     }
 
-    public function testGetCache()
+    public function testGetCache(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $cacheId = $this->faker->randomDigitNotNull;
@@ -1022,7 +1022,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getCache($cacheId);
     }
 
-    public function testGetCaches()
+    public function testGetCaches(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $teamId = $this->faker->randomDigitNotNull;
@@ -1039,7 +1039,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getCaches($teamId);
     }
 
-    public function testGetCacheTypesReturnsCacheTypes()
+    public function testGetCacheTypesReturnsCacheTypes(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $providerId = $this->faker->randomDigitNotNull;
@@ -1062,7 +1062,7 @@ class ClientTest extends TestCase
         $this->assertSame(['cache_type'], (new Client($httpClient, 'base_url'))->getCacheTypes($providerId)->all());
     }
 
-    public function testGetCacheTypesReturnsEmptyCacheTypes()
+    public function testGetCacheTypesReturnsEmptyCacheTypes(): void
     {
         $this->expectException(UnexpectedApiResponseException::class);
         $this->expectExceptionMessage('The Ymir API failed to return the available cache types');
@@ -1081,7 +1081,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getCacheTypes($providerId);
     }
 
-    public function testGetCertificate()
+    public function testGetCertificate(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $certificateId = $this->faker->randomDigitNotNull;
@@ -1098,7 +1098,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getCertificate($certificateId);
     }
 
-    public function testGetCertificates()
+    public function testGetCertificates(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $teamId = $this->faker->randomDigitNotNull;
@@ -1115,7 +1115,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getCertificates($teamId);
     }
 
-    public function testGetDatabases()
+    public function testGetDatabases(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $databaseServerId = $this->faker->randomDigitNotNull;
@@ -1132,7 +1132,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getDatabases($databaseServerId);
     }
 
-    public function testGetDatabaseServer()
+    public function testGetDatabaseServer(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $databaseServerId = $this->faker->randomDigitNotNull;
@@ -1149,7 +1149,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getDatabaseServer($databaseServerId);
     }
 
-    public function testGetDatabaseServers()
+    public function testGetDatabaseServers(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $teamId = $this->faker->randomDigitNotNull;
@@ -1166,7 +1166,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getDatabaseServers($teamId);
     }
 
-    public function testGetDatabaseServerTypesReturnsDatabaseServerTypes()
+    public function testGetDatabaseServerTypesReturnsDatabaseServerTypes(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $providerId = $this->faker->randomDigitNotNull;
@@ -1189,7 +1189,7 @@ class ClientTest extends TestCase
         $this->assertSame(['database_server_type'], (new Client($httpClient, 'base_url'))->getDatabaseServerTypes($providerId)->all());
     }
 
-    public function testGetDatabaseServerTypesReturnsEmptyDatabaseServerTypes()
+    public function testGetDatabaseServerTypesReturnsEmptyDatabaseServerTypes(): void
     {
         $this->expectException(UnexpectedApiResponseException::class);
         $this->expectExceptionMessage('The Ymir API failed to the available types of database servers');
@@ -1208,7 +1208,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getDatabaseServerTypes($providerId);
     }
 
-    public function testGetDatabaseUsers()
+    public function testGetDatabaseUsers(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $databaseServerId = $this->faker->randomDigitNotNull;
@@ -1225,7 +1225,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getDatabaseUsers($databaseServerId);
     }
 
-    public function testGetDeployment()
+    public function testGetDeployment(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $deploymentId = $this->faker->randomDigitNotNull;
@@ -1242,7 +1242,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getDeployment($deploymentId);
     }
 
-    public function testGetDeploymentImage()
+    public function testGetDeploymentImage(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $deploymentId = $this->faker->randomDigitNotNull;
@@ -1259,7 +1259,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getDeploymentImage($deploymentId);
     }
 
-    public function testGetDnsRecords()
+    public function testGetDnsRecords(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $zoneId = $this->faker->randomDigitNotNull;
@@ -1276,7 +1276,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getDnsRecords($zoneId);
     }
 
-    public function testGetDnsZone()
+    public function testGetDnsZone(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $zoneId = $this->faker->randomDigitNotNull;
@@ -1293,7 +1293,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getDnsZone($zoneId);
     }
 
-    public function testGetDnsZones()
+    public function testGetDnsZones(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $teamId = $this->faker->randomDigitNotNull;
@@ -1310,7 +1310,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getDnsZones($teamId);
     }
 
-    public function testGetEmailIdentities()
+    public function testGetEmailIdentities(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $teamId = $this->faker->randomDigitNotNull;
@@ -1327,7 +1327,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getEmailIdentities($teamId);
     }
 
-    public function testGetEmailIdentity()
+    public function testGetEmailIdentity(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $identityId = $this->faker->randomDigitNotNull;
@@ -1344,7 +1344,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getEmailIdentity($identityId);
     }
 
-    public function testGetEnvironment()
+    public function testGetEnvironment(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $environment = $this->faker->slug;
@@ -1362,7 +1362,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getEnvironment($projectId, $environment);
     }
 
-    public function testGetEnvironmentLogsWithOrder()
+    public function testGetEnvironmentLogsWithOrder(): void
     {
         $environment = $this->faker->slug;
         $function = $this->faker->slug;
@@ -1383,7 +1383,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getEnvironmentLogs($projectId, $environment, $function, $since, $order);
     }
 
-    public function testGetEnvironmentLogsWithoutOrder()
+    public function testGetEnvironmentLogsWithoutOrder(): void
     {
         $environment = $this->faker->slug;
         $function = $this->faker->slug;
@@ -1403,7 +1403,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getEnvironmentLogs($projectId, $environment, $function, $since);
     }
 
-    public function testGetEnvironmentMetrics()
+    public function testGetEnvironmentMetrics(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $environment = $this->faker->slug;
@@ -1421,7 +1421,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getEnvironmentMetrics($projectId, $environment, '7d');
     }
 
-    public function testGetEnvironments()
+    public function testGetEnvironments(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $projectId = $this->faker->randomDigitNotNull;
@@ -1438,7 +1438,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getEnvironments($projectId);
     }
 
-    public function testGetEnvironmentVariables()
+    public function testGetEnvironmentVariables(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $environment = $this->faker->slug;
@@ -1456,7 +1456,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getEnvironmentVariables($projectId, $environment);
     }
 
-    public function testGetInvocation()
+    public function testGetInvocation(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $invocationId = $this->faker->randomDigitNotNull;
@@ -1473,7 +1473,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getInvocation($invocationId);
     }
 
-    public function testGetNetwork()
+    public function testGetNetwork(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $networkId = $this->faker->randomDigitNotNull;
@@ -1490,7 +1490,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getNetwork($networkId);
     }
 
-    public function testGetNetworks()
+    public function testGetNetworks(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $teamId = $this->faker->randomDigitNotNull;
@@ -1507,7 +1507,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getNetworks($teamId);
     }
 
-    public function testGetProject()
+    public function testGetProject(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $projectId = $this->faker->randomDigitNotNull;
@@ -1524,7 +1524,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getProject($projectId);
     }
 
-    public function testGetProjects()
+    public function testGetProjects(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $teamId = $this->faker->randomDigitNotNull;
@@ -1541,7 +1541,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getProjects($teamId);
     }
 
-    public function testGetProvider()
+    public function testGetProvider(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $providerId = $this->faker->randomDigitNotNull;
@@ -1558,7 +1558,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getProvider($providerId);
     }
 
-    public function testGetProviders()
+    public function testGetProviders(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $teamId = $this->faker->randomDigitNotNull;
@@ -1575,7 +1575,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getProviders($teamId);
     }
 
-    public function testGetRegions()
+    public function testGetRegions(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $providerId = $this->faker->randomDigitNotNull;
@@ -1592,7 +1592,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getRegions($providerId);
     }
 
-    public function testGetSecrets()
+    public function testGetSecrets(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $environment = $this->faker->slug;
@@ -1610,7 +1610,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getSecrets($projectId, $environment);
     }
 
-    public function testGetSignedUploadRequestsReturnsNoSignedUploadRequests()
+    public function testGetSignedUploadRequestsReturnsNoSignedUploadRequests(): void
     {
         $this->expectException(UnexpectedApiResponseException::class);
         $this->expectExceptionMessage('The Ymir API failed to return the signed upload requests');
@@ -1631,7 +1631,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getSignedUploadRequests($projectId, $environment, ['uploads_file'])->all();
     }
 
-    public function testGetSignedUploadRequestsReturnsSignedUploadRequests()
+    public function testGetSignedUploadRequestsReturnsSignedUploadRequests(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $environment = $this->faker->slug;
@@ -1656,7 +1656,7 @@ class ClientTest extends TestCase
         $this->assertSame(['signed_upload_request'], (new Client($httpClient, 'base_url'))->getSignedUploadRequests($projectId, $environment, ['uploads_file'])->all());
     }
 
-    public function testGetTeam()
+    public function testGetTeam(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $teamId = $this->faker->randomDigitNotNull;
@@ -1673,7 +1673,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getTeam($teamId);
     }
 
-    public function testGetTeams()
+    public function testGetTeams(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
 
@@ -1689,7 +1689,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getTeams();
     }
 
-    public function testImportDnsRecords()
+    public function testImportDnsRecords(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $zoneId = $this->faker->randomDigitNotNull;
@@ -1707,7 +1707,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->importDnsRecords($zoneId, ['subdomain']);
     }
 
-    public function testInvalidateCache()
+    public function testInvalidateCache(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $environment = $this->faker->slug;
@@ -1726,7 +1726,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->invalidateCache($projectId, $environment, ['path']);
     }
 
-    public function testRemoveBastionHost()
+    public function testRemoveBastionHost(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $networkId = $this->faker->randomDigitNotNull;
@@ -1743,7 +1743,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->removeBastionHost($networkId);
     }
 
-    public function testRemoveNatGateway()
+    public function testRemoveNatGateway(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $networkId = $this->faker->randomDigitNotNull;
@@ -1760,7 +1760,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->removeNatGateway($networkId);
     }
 
-    public function testRotateDatabaseServerPassword()
+    public function testRotateDatabaseServerPassword(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $databaseServerId = $this->faker->randomDigitNotNull;
@@ -1777,7 +1777,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->rotateDatabaseServerPassword($databaseServerId);
     }
 
-    public function testRotateDatabaseUserPassword()
+    public function testRotateDatabaseUserPassword(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $databaseServerId = $this->faker->randomDigitNotNull;
@@ -1795,7 +1795,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->rotateDatabaseUserPassword($databaseServerId, $databaseUserId);
     }
 
-    public function testStartDeployment()
+    public function testStartDeployment(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $deploymentId = $this->faker->randomDigitNotNull;
@@ -1812,7 +1812,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->startDeployment($deploymentId);
     }
 
-    public function testUpdateCache()
+    public function testUpdateCache(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $cacheId = $this->faker->randomDigitNotNull;
@@ -1830,7 +1830,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->updateCache($cacheId, 'cache-type');
     }
 
-    public function testUpdateDatabaseServer()
+    public function testUpdateDatabaseServer(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $databaseServerId = $this->faker->randomDigitNotNull;
@@ -1848,7 +1848,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->updateDatabaseServer($databaseServerId, 42, 'database-server-type');
     }
 
-    public function testUpdateProvider()
+    public function testUpdateProvider(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $providerId = $this->faker->randomDigitNotNull;
@@ -1866,7 +1866,7 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->updateProvider($providerId, ['credential'], 'provider-name');
     }
 
-    public function testValidateProjectConfiguration()
+    public function testValidateProjectConfiguration(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $projectId = $this->faker->randomDigitNotNull;

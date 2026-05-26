@@ -69,7 +69,7 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function addNatGateway(int $networkId)
+    public function addNatGateway(int $networkId): void
     {
         $this->request('post', "/networks/{$networkId}/nat");
     }
@@ -77,7 +77,7 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function cancelDeployment(int $deploymentId)
+    public function cancelDeployment(int $deploymentId): void
     {
         $this->request('post', "/deployments/{$deploymentId}/cancel");
     }
@@ -85,7 +85,7 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function changeDatabaseServerLock(int $databaseServerId, bool $locked)
+    public function changeDatabaseServerLock(int $databaseServerId, bool $locked): void
     {
         $this->request('post', "/database-servers/{$databaseServerId}/lock", [
             'locked' => $locked,
@@ -95,7 +95,7 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function changeDnsRecord(int $zoneId, string $type, string $name, string $value)
+    public function changeDnsRecord(int $zoneId, string $type, string $name, string $value): void
     {
         $this->request('put', "/zones/{$zoneId}/records", [
             'type' => $type,
@@ -311,7 +311,7 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteCache(int $cacheId)
+    public function deleteCache(int $cacheId): void
     {
         $this->request('delete', "/caches/{$cacheId}");
     }
@@ -319,7 +319,7 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteCertificate(int $certificateId)
+    public function deleteCertificate(int $certificateId): void
     {
         $this->request('delete', "/certificates/{$certificateId}");
     }
@@ -327,7 +327,7 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteDatabase(int $databaseServerId, string $name)
+    public function deleteDatabase(int $databaseServerId, string $name): void
     {
         $this->request('delete', "/database-servers/{$databaseServerId}/databases/{$name}");
     }
@@ -335,7 +335,7 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteDatabaseServer(int $databaseServerId)
+    public function deleteDatabaseServer(int $databaseServerId): void
     {
         $this->request('delete', "/database-servers/{$databaseServerId}");
     }
@@ -343,7 +343,7 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteDatabaseUser(int $databaseServerId, int $userId)
+    public function deleteDatabaseUser(int $databaseServerId, int $userId): void
     {
         $this->request('delete', "/database-servers/{$databaseServerId}/users/{$userId}");
     }
@@ -351,7 +351,7 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteDnsRecord(int $zoneId, int $recordId)
+    public function deleteDnsRecord(int $zoneId, int $recordId): void
     {
         $this->request('delete', "/zones/{$zoneId}/records/{$recordId}");
     }
@@ -359,7 +359,7 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteDnsZone(int $zoneId)
+    public function deleteDnsZone(int $zoneId): void
     {
         $this->request('delete', "/zones/{$zoneId}");
     }
@@ -367,7 +367,7 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteEmailIdentity(int $identityId)
+    public function deleteEmailIdentity(int $identityId): void
     {
         $this->request('delete', "/email-identities/{$identityId}");
     }
@@ -375,7 +375,7 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteEnvironment(int $projectId, string $environment, bool $deleteResources = false)
+    public function deleteEnvironment(int $projectId, string $environment, bool $deleteResources = false): void
     {
         $this->request('delete', "/projects/{$projectId}/environments/{$environment}", [
             'delete_resources' => $deleteResources,
@@ -385,7 +385,7 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteNetwork(int $networkId)
+    public function deleteNetwork(int $networkId): void
     {
         $this->request('delete', "/networks/{$networkId}");
     }
@@ -393,7 +393,7 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteProject(int $projectId, bool $deleteResources = false)
+    public function deleteProject(int $projectId, bool $deleteResources = false): void
     {
         $this->request('delete', "/projects/{$projectId}", [
             'delete_resources' => $deleteResources,
@@ -403,7 +403,7 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteProvider(int $providerId)
+    public function deleteProvider(int $providerId): void
     {
         $this->request('delete', "/providers/{$providerId}");
     }
@@ -411,7 +411,7 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteSecret(int $secretId)
+    public function deleteSecret(int $secretId): void
     {
         $this->request('delete', "/secrets/{$secretId}");
     }
@@ -759,7 +759,7 @@ final class Client implements ClientInterface
 
         $pool = new Pool($this->httpClient, $requests($assetFiles), [
             'concurrency' => 10,
-            'fulfilled' => function (ResponseInterface $response) use (&$signedAssetRequests) {
+            'fulfilled' => function (ResponseInterface $response) use (&$signedAssetRequests): void {
                 $signedAssetRequests[] = $this->decodeResponse($response);
             },
             'options' => ['verify' => false],
@@ -808,7 +808,7 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function importDnsRecords(int $zoneId, array $subdomains = [])
+    public function importDnsRecords(int $zoneId, array $subdomains = []): void
     {
         $this->request('post', "/zones/{$zoneId}/import-records", [
             'subdomains' => array_filter($subdomains),
@@ -818,7 +818,7 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function invalidateCache(int $projectId, string $environment, array $paths)
+    public function invalidateCache(int $projectId, string $environment, array $paths): void
     {
         $this->request('post', "/projects/{$projectId}/environments/{$environment}/invalidate-cache", [
             'paths' => $paths,
@@ -828,7 +828,7 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function removeBastionHost(int $networkId)
+    public function removeBastionHost(int $networkId): void
     {
         $this->request('delete', "/networks/{$networkId}/bastion-host");
     }
@@ -836,7 +836,7 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function removeNatGateway(int $networkId)
+    public function removeNatGateway(int $networkId): void
     {
         $this->request('delete', "/networks/{$networkId}/nat");
     }
@@ -860,7 +860,7 @@ final class Client implements ClientInterface
     /**
      * Set the Ymir API access token.
      */
-    public function setAccessToken(string $token)
+    public function setAccessToken(string $token): void
     {
         $this->token = $token;
     }
@@ -868,7 +868,7 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function startDeployment(int $deploymentId)
+    public function startDeployment(int $deploymentId): void
     {
         $this->request('post', "/deployments/{$deploymentId}/start");
     }
@@ -876,7 +876,7 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function updateCache(int $cacheId, string $type)
+    public function updateCache(int $cacheId, string $type): void
     {
         $this->request('put', "/caches/{$cacheId}", [
             'type' => $type,
@@ -886,7 +886,7 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function updateDatabaseServer(int $databaseServerId, int $storage, string $type)
+    public function updateDatabaseServer(int $databaseServerId, int $storage, string $type): void
     {
         $this->request('put', "/database-servers/{$databaseServerId}", [
             'storage' => $storage,
@@ -897,7 +897,7 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function updateProvider(int $providerId, array $credentials, string $name)
+    public function updateProvider(int $providerId, array $credentials, string $name): void
     {
         $this->request('put', "/providers/{$providerId}", [
             'name' => $name,
