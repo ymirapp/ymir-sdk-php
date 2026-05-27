@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/ymirapp/ymir-sdk-php/compare/v1.3.1...v1.4.0) (2026-05-27)
+
+
+### Features
+
+* Add database server engine support ([5805086](https://github.com/ymirapp/ymir-sdk-php/commit/580508688e1f95b24973a11ba0439084db998d4e))
+
 ## [1.3.1](https://github.com/ymirapp/ymir-sdk-php/compare/v1.3.0...v1.3.1) (2026-03-20)
 
 
