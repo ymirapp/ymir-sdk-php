@@ -926,9 +926,9 @@ final class Client implements ClientInterface
             'Content-Type' => 'application/json',
             'User-Agent' => 'ymir-sdk-php/1.3.0',
         ];
-        $method = strtolower($method);
+        $method = strtoupper($method);
 
-        $body = in_array($method, ['delete', 'post', 'put']) ? json_encode($body) : null;
+        $body = in_array($method, ['DELETE', 'POST', 'PUT']) ? json_encode($body) : null;
 
         if (false === $body) {
             throw new \RuntimeException(sprintf('Unable to JSON encode request body: %s', json_last_error_msg()));
