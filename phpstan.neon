@@ -1,6 +1,4 @@
 parameters:
     level: 5
-    checkGenericClassInNonGenericObjectType: false
-    checkMissingIterableValueType: false
     paths:
       - src/
