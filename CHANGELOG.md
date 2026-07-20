@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.1](https://github.com/ymirapp/ymir-sdk-php/compare/v1.4.0...v1.4.1) (2026-07-20)
+
+
+### Dependency Changes
+
+* Add psr http message 2.0 support ([20962cc](https://github.com/ymirapp/ymir-sdk-php/commit/20962ccd1b31796fe5f94019f3981c6622541abd))
+* Add support for guzzle 8.0 ([7ed2fb8](https://github.com/ymirapp/ymir-sdk-php/commit/7ed2fb8badc0b10ba60532027055530c8f1cfe78))
+
 ## [1.4.0](https://github.com/ymirapp/ymir-sdk-php/compare/v1.3.1...v1.4.0) (2026-05-27)
 
 
