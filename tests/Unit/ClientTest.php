@@ -14,9 +14,9 @@ declare(strict_types=1);
 namespace Ymir\Sdk\Tests\Unit;
 
 use GuzzleHttp\ClientInterface as GuzzleClientInterface;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
 use Ymir\Sdk\Client;
 use Ymir\Sdk\Exception\UnexpectedApiResponseException;
 use Ymir\Sdk\Tests\Mock\FunctionMockTrait;
@@ -839,7 +839,7 @@ class ClientTest extends TestCase
     {
         $gethostname = $this->getFunctionMock($this->getNamespace(Client::class), 'gethostname');
         $httpClient = $this->createMock(GuzzleClientInterface::class);
-        $response = $this->createMock(ResponseInterface::class);
+        $response = new Response(200, [], json_encode(['access_token' => 'access_token']));
 
         $gethostname->expects($this->once())
             ->willReturn('hostname');
@@ -855,10 +855,6 @@ class ClientTest extends TestCase
             }))
             ->willReturn($response);
 
-        $response->expects($this->once())
-            ->method('getBody')
-            ->willReturn(json_encode(['access_token' => 'access_token']));
-
         $this->assertSame('access_token', (new Client($httpClient, 'base_url'))->getAccessToken('email', 'password', 'code'));
     }
 
@@ -866,7 +862,7 @@ class ClientTest extends TestCase
     {
         $gethostname = $this->getFunctionMock($this->getNamespace(Client::class), 'gethostname');
         $httpClient = $this->createMock(GuzzleClientInterface::class);
-        $response = $this->createMock(ResponseInterface::class);
+        $response = new Response(200, [], json_encode(['access_token' => 'access_token']));
 
         $gethostname->expects($this->once())
                     ->willReturn('hostname');
@@ -881,10 +877,6 @@ class ClientTest extends TestCase
                        return true;
                    }))
                    ->willReturn($response);
-
-        $response->expects($this->once())
-                 ->method('getBody')
-                 ->willReturn(json_encode(['access_token' => 'access_token']));
 
         $this->assertSame('access_token', (new Client($httpClient, 'base_url'))->getAccessToken('email', 'password'));
     }
@@ -933,7 +925,7 @@ class ClientTest extends TestCase
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $deploymentId = $this->faker->randomDigitNotNull;
-        $response = $this->createMock(ResponseInterface::class);
+        $response = new Response(200, [], json_encode(['upload_url' => 'upload_url']));
 
         $httpClient->expects($this->once())
                    ->method('send')
@@ -944,10 +936,6 @@ class ClientTest extends TestCase
                        return true;
                    }))
                    ->willReturn($response);
-
-        $response->expects($this->once())
-                 ->method('getBody')
-                 ->willReturn(json_encode(['upload_url' => 'upload_url']));
 
         $this->assertSame('upload_url', (new Client($httpClient, 'base_url'))->getArtifactUploadUrl($deploymentId));
     }
@@ -1043,7 +1031,7 @@ class ClientTest extends TestCase
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $providerId = $this->faker->randomDigitNotNull;
-        $response = $this->createMock(ResponseInterface::class);
+        $response = new Response(200, [], json_encode(['cache_type']));
 
         $httpClient->expects($this->once())
                    ->method('send')
@@ -1054,10 +1042,6 @@ class ClientTest extends TestCase
                        return true;
                    }))
                    ->willReturn($response);
-
-        $response->expects($this->once())
-                 ->method('getBody')
-                 ->willReturn(json_encode(['cache_type']));
 
         $this->assertSame(['cache_type'], (new Client($httpClient, 'base_url'))->getCacheTypes($providerId)->all());
     }
@@ -1170,7 +1154,7 @@ class ClientTest extends TestCase
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $providerId = $this->faker->randomDigitNotNull;
-        $response = $this->createMock(ResponseInterface::class);
+        $response = new Response(200, [], json_encode(['database_server_type']));
 
         $httpClient->expects($this->once())
                    ->method('send')
@@ -1181,10 +1165,6 @@ class ClientTest extends TestCase
                        return true;
                    }))
                    ->willReturn($response);
-
-        $response->expects($this->once())
-                 ->method('getBody')
-                 ->willReturn(json_encode(['database_server_type']));
 
         $this->assertSame(['database_server_type'], (new Client($httpClient, 'base_url'))->getDatabaseServerTypes($providerId)->all());
     }
@@ -1636,7 +1616,7 @@ class ClientTest extends TestCase
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $environment = $this->faker->slug;
         $projectId = $this->faker->randomDigitNotNull;
-        $response = $this->createMock(ResponseInterface::class);
+        $response = new Response(200, [], json_encode(['signed_upload_request']));
 
         $httpClient->expects($this->once())
                    ->method('send')
@@ -1648,10 +1628,6 @@ class ClientTest extends TestCase
                        return true;
                    }))
                    ->willReturn($response);
-
-        $response->expects($this->once())
-                 ->method('getBody')
-                 ->willReturn(json_encode(['signed_upload_request']));
 
         $this->assertSame(['signed_upload_request'], (new Client($httpClient, 'base_url'))->getSignedUploadRequests($projectId, $environment, ['uploads_file'])->all());
     }
