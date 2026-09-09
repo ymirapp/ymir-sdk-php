@@ -272,11 +272,10 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function createProvider(int $teamId, string $name, array $credentials): Collection
+    public function createProvider(int $teamId, string $name): Collection
     {
         return $this->request('post', "/teams/{$teamId}/providers", [
             'name' => $name,
-            'credentials' => $credentials,
         ]);
     }
 
@@ -724,9 +723,15 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getProviders(int $teamId): Collection
+    public function getProviders(int $teamId, ?string $status = null): Collection
     {
-        return $this->request('get', "/teams/{$teamId}/providers");
+        $uri = "/teams/{$teamId}/providers";
+
+        if (null !== $status) {
+            $uri .= '?'.http_build_query(['status' => $status]);
+        }
+
+        return $this->request('get', $uri);
     }
 
     /**
@@ -897,12 +902,12 @@ final class Client implements ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function updateProvider(int $providerId, array $credentials, string $name): void
+    public function updateProvider(int $providerId, ?array $credentials = null, ?string $name = null): void
     {
-        $this->request('put', "/providers/{$providerId}", [
+        $this->request('patch', "/providers/{$providerId}", array_filter([
             'name' => $name,
             'credentials' => $credentials,
-        ]);
+        ]));
     }
 
     /**
@@ -928,7 +933,7 @@ final class Client implements ClientInterface
         ];
         $method = strtoupper($method);
 
-        $body = in_array($method, ['DELETE', 'POST', 'PUT']) ? json_encode($body) : null;
+        $body = in_array($method, ['DELETE', 'PATCH', 'POST', 'PUT']) ? json_encode($body) : null;
 
         if (false === $body) {
             throw new \RuntimeException(sprintf('Unable to JSON encode request body: %s', json_last_error_msg()));

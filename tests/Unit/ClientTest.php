@@ -14,16 +14,71 @@ declare(strict_types=1);
 namespace Ymir\Sdk\Tests\Unit;
 
 use GuzzleHttp\ClientInterface as GuzzleClientInterface;
+use GuzzleHttp\Exception\ClientException as GuzzleClientException;
+use GuzzleHttp\Exception\ServerException;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\RequestInterface;
 use Ymir\Sdk\Client;
+use Ymir\Sdk\Exception\ClientException;
 use Ymir\Sdk\Exception\UnexpectedApiResponseException;
 use Ymir\Sdk\Tests\Mock\FunctionMockTrait;
 
 class ClientTest extends TestCase
 {
     use FunctionMockTrait;
+
+    public static function invalidProviderUpdates(): array
+    {
+        return [
+            'no concerns' => [[], []],
+            'empty concerns' => [[[], ''], []],
+            'zero name' => [[null, '0'], []],
+            'partial credentials' => [[['key' => 'key']], ['credentials' => ['key' => 'key']]],
+            'customer external ID' => [[['role_arn' => 'role', 'external_id' => 'invalid']], ['credentials' => ['role_arn' => 'role', 'external_id' => 'invalid']]],
+        ];
+    }
+
+    public static function providerResponses(): array
+    {
+        return [
+            'pending reader' => [['id' => 42, 'status' => 'pending', 'authentication' => ['method' => null]]],
+            'access key with setup' => [['id' => 42, 'status' => 'connected', 'authentication' => [
+                'method' => 'access_key',
+                'assume_role' => ['ymir_account_id' => '123456789012', 'external_id' => 'server-external-id', 'role_name' => 'ymir-cloud-provider-42'],
+            ]]],
+            'disconnected role' => [['id' => 42, 'status' => 'disconnected', 'authentication' => ['method' => 'assume_role']]],
+        ];
+    }
+
+    public static function providerStatuses(): array
+    {
+        return [
+            'default' => [null, ''],
+            'pending' => ['pending', '?status=pending'],
+            'connected' => ['connected', '?status=connected'],
+            'disconnected' => ['disconnected', '?status=disconnected'],
+            'encoded' => ['pending&other=value +', '?status=pending%26other%3Dvalue+%2B'],
+            'empty supplied filter' => ['', '?status='],
+        ];
+    }
+
+    public static function providerUpdates(): array
+    {
+        $accessKey = ['key' => 'key', 'secret' => 'secret'];
+        $role = ['role_arn' => 'arn:aws:iam::123456789012:role/ymir-cloud-provider-42'];
+
+        return [
+            'name only' => [[null, 'provider-name'], ['name' => 'provider-name']],
+            'access key only' => [[$accessKey], ['credentials' => $accessKey]],
+            'role only' => [[$role], ['credentials' => $role]],
+            'name and access key' => [[$accessKey, 'provider-name'], ['name' => 'provider-name', 'credentials' => $accessKey]],
+            'name and role' => [[$role, 'provider-name'], ['name' => 'provider-name', 'credentials' => $role]],
+            'empty credentials with name' => [[[], 'name'], ['name' => 'name']],
+            'empty name with credentials' => [[$accessKey, ''], ['credentials' => $accessKey]],
+        ];
+    }
 
     public function testAddBastionHost(): void
     {
@@ -501,6 +556,10 @@ class ClientTest extends TestCase
     public function testCreateProvider(): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
+        $provider = ['id' => 42, 'name' => 'provider-name', 'status' => 'pending', 'authentication' => [
+            'method' => null,
+            'assume_role' => ['ymir_account_id' => '123456789012', 'external_id' => 'server-external-id', 'role_name' => 'ymir-cloud-provider-42'],
+        ]];
         $teamId = $this->faker->randomDigitNotNull;
 
         $httpClient->expects($this->once())
@@ -508,12 +567,13 @@ class ClientTest extends TestCase
                    ->with($this->callback(function (RequestInterface $request) use ($teamId) {
                        $this->assertSame('POST', $request->getMethod());
                        $this->assertSame("base_url/teams/{$teamId}/providers", (string) $request->getUri());
-                       $this->assertEquals(['name' => 'provider-name', 'credentials' => ['credentials']], json_decode($request->getBody()->getContents(), true));
+                       $this->assertEquals(['name' => 'provider-name'], json_decode($request->getBody()->getContents(), true));
 
                        return true;
-                   }));
+                   }))
+                   ->willReturn(new Response(201, [], json_encode($provider)));
 
-        (new Client($httpClient, 'base_url'))->createProvider($teamId, 'provider-name', ['credentials']);
+        $this->assertSame($provider, (new Client($httpClient, 'base_url'))->createProvider($teamId, 'provider-name')->all());
     }
 
     public function testCreateRedeployment(): void
@@ -1521,7 +1581,10 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->getProjects($teamId);
     }
 
-    public function testGetProvider(): void
+    /**
+     * @dataProvider providerResponses
+     */
+    public function testGetProvider(array $provider): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $providerId = $this->faker->randomDigitNotNull;
@@ -1531,28 +1594,43 @@ class ClientTest extends TestCase
                    ->with($this->callback(function (RequestInterface $request) use ($providerId) {
                        $this->assertSame('GET', $request->getMethod());
                        $this->assertSame("base_url/providers/{$providerId}", (string) $request->getUri());
+                       $this->assertSame('', (string) $request->getBody());
 
                        return true;
-                   }));
+                   }))
+                   ->willReturn(new Response(200, [], json_encode($provider)));
 
-        (new Client($httpClient, 'base_url'))->getProvider($providerId);
+        $this->assertSame($provider, (new Client($httpClient, 'base_url'))->getProvider($providerId)->all());
     }
 
-    public function testGetProviders(): void
+    /**
+     * @dataProvider providerStatuses
+     */
+    public function testGetProviders(?string $status, string $query): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $teamId = $this->faker->randomDigitNotNull;
+        $providers = [
+            ['id' => 1, 'status' => 'pending', 'authentication' => ['method' => null]],
+            ['id' => 2, 'status' => 'connected', 'authentication' => ['method' => 'access_key']],
+            ['id' => 3, 'status' => 'disconnected', 'authentication' => ['method' => 'assume_role']],
+        ];
 
         $httpClient->expects($this->once())
                    ->method('send')
-                   ->with($this->callback(function (RequestInterface $request) use ($teamId) {
+                   ->with($this->callback(function (RequestInterface $request) use ($teamId, $query) {
                        $this->assertSame('GET', $request->getMethod());
-                       $this->assertSame("base_url/teams/{$teamId}/providers", (string) $request->getUri());
+                       $this->assertSame("base_url/teams/{$teamId}/providers".$query, (string) $request->getUri());
+                       $this->assertSame('', (string) $request->getBody());
 
                        return true;
-                   }));
+                   }))
+                   ->willReturn(new Response(200, [], json_encode($providers)));
 
-        (new Client($httpClient, 'base_url'))->getProviders($teamId);
+        $client = new Client($httpClient, 'base_url');
+        $response = null === $status ? $client->getProviders($teamId) : $client->getProviders($teamId, $status);
+
+        $this->assertSame($providers, $response->all());
     }
 
     public function testGetRegions(): void
@@ -1824,22 +1902,62 @@ class ClientTest extends TestCase
         (new Client($httpClient, 'base_url'))->updateDatabaseServer($databaseServerId, 42, 'database-server-type');
     }
 
-    public function testUpdateProvider(): void
+    /**
+     * @dataProvider providerUpdates
+     */
+    public function testUpdateProvider(array $arguments, array $body): void
     {
         $httpClient = $this->createMock(GuzzleClientInterface::class);
         $providerId = $this->faker->randomDigitNotNull;
 
         $httpClient->expects($this->once())
                    ->method('send')
-                   ->with($this->callback(function (RequestInterface $request) use ($providerId) {
-                       $this->assertSame('PUT', $request->getMethod());
+                   ->with($this->callback(function (RequestInterface $request) use ($providerId, $body) {
+                       $this->assertSame('PATCH', $request->getMethod());
                        $this->assertSame("base_url/providers/{$providerId}", (string) $request->getUri());
-                       $this->assertEquals(['name' => 'provider-name', 'credentials' => ['credential']], json_decode($request->getBody()->getContents(), true));
+                       $this->assertSame('application/json', $request->getHeaderLine('Content-Type'));
+                       $this->assertSame($body, json_decode((string) $request->getBody(), true));
 
                        return true;
                    }));
 
-        (new Client($httpClient, 'base_url'))->updateProvider($providerId, ['credential'], 'provider-name');
+        (new Client($httpClient, 'base_url'))->updateProvider($providerId, ...$arguments);
+    }
+
+    public function testUpdateProviderPropagatesServerErrors(): void
+    {
+        $httpClient = $this->createMock(GuzzleClientInterface::class);
+        $exception = new ServerException('Unavailable', new Request('PATCH', 'base_url/providers/42'), new Response(503));
+        $httpClient->expects($this->once())->method('send')->willThrowException($exception);
+
+        $this->expectExceptionObject($exception);
+
+        (new Client($httpClient, 'base_url'))->updateProvider(42, ['role_arn' => 'arn:aws:iam::123456789012:role/ymir-cloud-provider-42']);
+    }
+
+    /**
+     * @dataProvider invalidProviderUpdates
+     */
+    public function testUpdateProviderPropagatesValidationErrors(array $arguments, array $body): void
+    {
+        $httpClient = $this->createMock(GuzzleClientInterface::class);
+        $response = new Response(422, [], json_encode(['message' => 'Invalid update', 'errors' => ['credentials' => ['Invalid credentials']]]));
+
+        $httpClient->expects($this->once())
+                   ->method('send')
+                   ->with($this->callback(function (RequestInterface $request) use ($body) {
+                       $this->assertSame('PATCH', $request->getMethod());
+                       $this->assertSame($body, json_decode((string) $request->getBody(), true));
+
+                       return true;
+                   }))
+                   ->willThrowException(new GuzzleClientException('Invalid update', new Request('PATCH', 'base_url/providers/42'), $response));
+
+        $this->expectException(ClientException::class);
+        $this->expectExceptionCode(422);
+        $this->expectExceptionMessage('Invalid credentials');
+
+        (new Client($httpClient, 'base_url'))->updateProvider(42, ...$arguments);
     }
 
     public function testValidateProjectConfiguration(): void

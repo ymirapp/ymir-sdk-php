@@ -116,9 +116,9 @@ interface ClientInterface
     public function createProject(int $providerId, string $name, string $region, array $environments = []): Collection;
 
     /**
-     * Create a new cloud provider.
+     * Create a pending cloud provider.
      */
-    public function createProvider(int $teamId, string $name, array $credentials): Collection;
+    public function createProvider(int $teamId, string $name): Collection;
 
     /**
      * Create a new deployment for redeploying a project environment.
@@ -371,9 +371,9 @@ interface ClientInterface
     public function getProvider(int $providerId): Collection;
 
     /**
-     * Get the cloud providers that belong to a team.
+     * Get the cloud providers that belong to a team, optionally filtered by status.
      */
-    public function getProviders(int $teamId): Collection;
+    public function getProviders(int $teamId, ?string $status = null): Collection;
 
     /**
      * Get the list of regions supported by a cloud provider.
@@ -453,7 +453,7 @@ interface ClientInterface
     /**
      * Update a cloud provider.
      */
-    public function updateProvider(int $providerId, array $credentials, string $name);
+    public function updateProvider(int $providerId, ?array $credentials = null, ?string $name = null);
 
     /**
      * Validates the project configuration and returns warnings for each environment.
