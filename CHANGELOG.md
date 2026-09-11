@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/ymirapp/ymir-sdk-php/compare/v1.4.1...v1.5.0) (2026-09-11)
+
+
+### Features
+
+* Support pending providers and partial patch updates ([ab8fb4a](https://github.com/ymirapp/ymir-sdk-php/commit/ab8fb4afdcfe99ce7404be487fdc9daa7585b5a3))
+
 ## [1.4.1](https://github.com/ymirapp/ymir-sdk-php/compare/v1.4.0...v1.4.1) (2026-07-20)
 
 
